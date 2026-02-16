@@ -52,7 +52,7 @@ setTimeout(function () {
 
 
 //EVENTO AL CLICK CON CONSEGUENTI AZIONI
-buttonEl.addEventListener('click', function(e) {
+buttonEl.addEventListener('click', function (e) {
     e.preventDefault();
     //conserviamo i valori degli input inseriti dall'utente
     const inputValues = getInputValues();
@@ -75,12 +75,18 @@ buttonEl.addEventListener('click', function(e) {
         if (goodNumbers != 0) {
             goodNumbers.forEach(goodnumber => {
                 numbersListEl.innerHTML += `<li>${goodnumber}</li>`;
+                setTimeout(function () {
+                    location.reload();
+                }, 5000)
             });
         } else {
             instructionsEl.innerHTML = "Ritenta...";
+            setTimeout(function () {
+                location.reload();
+            }, 5000)
         }
     } else { //allerta per input errati
-        alert('Inserisci valori validi, tra 1 e 50 e non duplicati') 
+        alert('Inserisci valori validi, tra 1 e 50 e non duplicati')
     }
 })
 
