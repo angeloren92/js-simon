@@ -18,16 +18,17 @@ const buttonEl = document.querySelector('button');
 const instructionsEl = document.getElementById('instructions');
 const countdownEl = document.getElementById('countdown')
 
-//RICHIAMO FUNZIONI
-//ho dovuto trasformare il set in un array, per poterci lavorare successivamente
-const randomNums = Array.from(getRandomNums());
+//richiamo funzione per generare i numeri
+const randomNums = getRandomNums();
 console.log(randomNums);
+
 
 //TIMER PER LASCIARE ALL'UTENTE DI LEGGERE LE ISTRUZIONI
 setTimeout(function () {
-    let timer = 3;
+    let timer = 30;
     countdownEl.innerHTML = timer;
     instructionsEl.innerHTML = "";
+
     //Inseriamo un nuovo elemento html per ogni elemento dell'oggetto
     randomNums.forEach(randomNum => {
         numbersListEl.innerHTML += `<li>${randomNum}</li>`;
@@ -35,33 +36,34 @@ setTimeout(function () {
     //COUNTDOWN CON LE CONSEGUENTI AZIONI
     const timerId = setInterval(function () {
         if (timer <= 0) {
-            clearInterval(timerId);
+            clearInterval(timerId);  //stop
+            //azioni in HTML
             answersFormEl.classList.remove('d-none');
             numbersListEl.classList.add('d-none');
             countdownEl.classList.add('d-none');
             instructionsEl.innerHTML = 'Inserisci i numeri che hai visto prima';
         }
-        else {
+        else { //countdown
             timer--;
             countdownEl.innerHTML = timer;
         }
-    }, 1000)
-}, 2500)
+    }, 1000) //countdown di 1 secondo ad iterazione
+}, 2500) //diamo 2,5 secondi all'utente per leggere in messaggio
 
 
 //EVENTO AL CLICK CON CONSEGUENTI AZIONI
-buttonEl.addEventListener('click', function (e) {
+buttonEl.addEventListener('click', function(e) {
     e.preventDefault();
     //conserviamo i valori degli input inseriti dall'utente
     const inputValues = getInputValues();
     console.log(inputValues)
-    //serve il controllo del range e duplicati
+    //serve il controllo del range e duplicati, non serve controllo per stringa perchè in html abbiamo già l'attributo type=number
     const rangeCheck = isRightRangeInputValues(inputValues);
     const duplicatesCheck = areDuplicatesInputValues(inputValues);
     if (rangeCheck === true && duplicatesCheck === false) {
-        //deve fare i confronti 
+        //deve fare i confronti dei numeri indovinati
         const goodNumbers = checkNumbers(randomNums, inputValues);
-        //azioni al click del conferma
+        //azioni in HTML al click del conferma
         countdownEl.innerHTML = "";
         instructionsEl.innerHTML = "Hai indovinato questi Numeri!!";
         answersFormEl.classList.add('d-none');
@@ -77,8 +79,8 @@ buttonEl.addEventListener('click', function (e) {
         } else {
             instructionsEl.innerHTML = "Ritenta...";
         }
-    } else {
-        alert('Inserisci valori validi, tra 1 e 50 e non duplicati')
+    } else { //allerta per input errati
+        alert('Inserisci valori validi, tra 1 e 50 e non duplicati') 
     }
 })
 
@@ -86,14 +88,13 @@ buttonEl.addEventListener('click', function (e) {
 //generare numeri casuali: da 1 a 50, ps non deve dare numeri doppi
 /**
  * ## genera una cinquina di numeri compresi da 1 a 50
- * @returns restituisce un oggetto
+ * @returns restituisce un array
  */
 function getRandomNums() {
     const randomNums = new Set();
     while (randomNums.size != 5) { randomNums.add(Math.floor(Math.random() * 50) + 1) };
-    return randomNums;
+    return Array.from(randomNums);
 }
-
 
 /**
  * ## Salviamo in un array i valori degli input
@@ -155,6 +156,5 @@ function checkNumbers(randomNums, inputValues) {
             goodNumbers.push(inputValues[i]);
         }
     }
-    console.log(goodNumbers)
     return goodNumbers;
 }
