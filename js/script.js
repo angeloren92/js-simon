@@ -57,7 +57,18 @@ buttonEl.addEventListener('click', function (e) {
     console.log(inputValues)
     //deve fare i confronti 
     const goodNumbers = checkNumbers(randomNums, inputValues);
-
+    //azioni al click del conferma
+    countdownEl.innerHTML = "";
+    instructionsEl.innerHTML = "Hai indovinato questi Numeri!!";
+    answersFormEl.classList.add('d-none');
+    numbersListEl.classList.remove('d-none');
+    countdownEl.classList.remove('d-none');
+    //reset della lista UL LI
+    numbersListEl.innerHTML = "";
+    //visualizzaione dei numeri indovinati
+    goodNumbers.forEach(goodnumber => {
+        numbersListEl.innerHTML += `<li>${goodnumber}</li>`;
+    });
 })
 
 //FUNZIONI
