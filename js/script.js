@@ -55,20 +55,31 @@ buttonEl.addEventListener('click', function (e) {
     //conserviamo i valori degli input inseriti dall'utente
     const inputValues = getInputValues();
     console.log(inputValues)
-    //deve fare i confronti 
-    const goodNumbers = checkNumbers(randomNums, inputValues);
-    //azioni al click del conferma
-    countdownEl.innerHTML = "";
-    instructionsEl.innerHTML = "Hai indovinato questi Numeri!!";
-    answersFormEl.classList.add('d-none');
-    numbersListEl.classList.remove('d-none');
-    countdownEl.classList.remove('d-none');
-    //reset della lista UL LI
-    numbersListEl.innerHTML = "";
-    //visualizzaione dei numeri indovinati
-    goodNumbers.forEach(goodnumber => {
-        numbersListEl.innerHTML += `<li>${goodnumber}</li>`;
-    });
+    //serve il controllo del range e duplicati
+    const rangeCheck = isRightRangeInputValues(inputValues);
+    const duplicatesCheck = areDuplicatesInputValues(inputValues);
+    if (rangeCheck === true && duplicatesCheck === false) {
+        //deve fare i confronti 
+        const goodNumbers = checkNumbers(randomNums, inputValues);
+        //azioni al click del conferma
+        countdownEl.innerHTML = "";
+        instructionsEl.innerHTML = "Hai indovinato questi Numeri!!";
+        answersFormEl.classList.add('d-none');
+        numbersListEl.classList.remove('d-none');
+        countdownEl.classList.remove('d-none');
+        //reset della lista UL LI
+        numbersListEl.innerHTML = "";
+        //visualizzaione dei numeri indovinati
+        if (goodNumbers != 0) {
+            goodNumbers.forEach(goodnumber => {
+                numbersListEl.innerHTML += `<li>${goodnumber}</li>`;
+            });
+        } else {
+            instructionsEl.innerHTML = "Ritenta...";
+        }
+    } else {
+        alert('Inserisci valori validi, tra 1 e 50 e non duplicati')
+    }
 })
 
 //FUNZIONI
@@ -96,6 +107,41 @@ function getInputValues() {
     })
     return value;
 }
+
+/**
+ * ## controllo range di numeri
+ * @param {Array} inputValues - array conteneti i dati degli inputs
+ * @returns ritorna vero se il range è ok compreso da 1 a 50
+ */
+function isRightRangeInputValues(inputValues) {
+    let check = true;
+    for (let i = 0; i < inputValues.length; i++) {
+        let inputValue = inputValues[i];
+        if (inputValue > 50 || inputValue <= 0) {
+            check = false;
+        }
+    }
+    return check;
+}
+
+/**
+ * ## controlla i duplicati
+ * @param {Array} inputValues - inserisci l'array contenete i valori degli input
+ * @returns restituisce vero se ci sono duplicati
+ */
+function areDuplicatesInputValues(inputValues) {
+    let inputChecked = [];
+    let check = false;
+    for (let i = 0; i < inputValues.length; i++) {
+        let inputValue = inputValues[i];
+        if (inputChecked.includes(inputValue)) {
+            check = true;
+        }
+        inputChecked.push(inputValue);
+    }
+    return check;
+}
+
 /**
  * ## confrontiamo i valori tra di loro
  * @param {Array} randomNums numeri casuali generati da sistema
