@@ -17,7 +17,6 @@ const answersFormEl = document.getElementById('answers-form')
 //Inseriamo un nuovo elemento html per ogni elemento dell'oggetto
 randomNums.forEach(randomNum => {
     numbersListEl.innerHTML += `<li>${randomNum}</li>`;
-    console.log(randomNum);
 });
 
 //timer di 30 secondi per lo switch di visualizzazione, da numeri random generati a form per l'inserimento input
@@ -30,13 +29,17 @@ const timer = setTimeout(function() {
 //Agganciamo i nodi degli inputes
 const inputEl = document.querySelectorAll('input');
 const buttonEl = document.querySelector('button');
-const buttonValues = [];
-console.log(inputEl, buttonEl);
+const inputValues = [];
 
 buttonEl.addEventListener('click', function(e){
     e.preventDefault();
-    buttonValues.forEach(value =>)
     
+    inputEl.forEach(input => {
+        inputValues.push(input.value);
+        console.log(input.value);
+    })
 })
 
+
+console.log(inputValues);
 
