@@ -15,29 +15,49 @@
 const numbersListEl = document.getElementById('numbers-list');
 const answersFormEl = document.getElementById('answers-form');
 const buttonEl = document.querySelector('button');
-const instructionsEl = document
+const instructionsEl = document.getElementById('instructions');
+const countdownEl = document.getElementById('countdown')
 
 //RICHIAMO FUNZIONI
 //ho dovuto trasformare il set in un array, per poterci lavorare successivamente
 const randomNums = Array.from(getRandomNums());
 console.log(randomNums);
 
-//TIMER CON LE CONSEGUENTI AZIONI
-const timer = setTimeout(function() {
-    //da rivedere le istruzioni da eseguire
-    numbersListEl.classList.add('d-none')
-    answersFormEl.classList.remove('d-none')
-}, 3000);
+//TIMER PER LASCIARE ALL'UTENTE DI LEGGERE LE ISTRUZIONI
+setTimeout(function () {
+    let timer = 3;
+    countdownEl.innerHTML = timer;
+    instructionsEl.innerHTML = "";
+    //Inseriamo un nuovo elemento html per ogni elemento dell'oggetto
+    randomNums.forEach(randomNum => {
+        numbersListEl.innerHTML += `<li>${randomNum}</li>`;
+    });
+    //COUNTDOWN CON LE CONSEGUENTI AZIONI
+    const timerId = setInterval(function () {
+        if (timer <= 0) {
+            clearInterval(timerId);
+            answersFormEl.classList.remove('d-none');
+            numbersListEl.classList.add('d-none');
+            countdownEl.classList.add('d-none');
+            instructionsEl.innerHTML = 'Inserisci i numeri che hai visto prima';
+        }
+        else {
+            timer--;
+            countdownEl.innerHTML = timer;
+        }
+    }, 1000)
+}, 2500)
+
 
 //EVENTO AL CLICK CON CONSEGUENTI AZIONI
-buttonEl.addEventListener('click', function(e){
+buttonEl.addEventListener('click', function (e) {
     e.preventDefault();
     //conserviamo i valori degli input inseriti dall'utente
     const inputValues = getInputValues();
     console.log(inputValues)
     //deve fare i confronti 
     const goodNumbers = checkNumbers(randomNums, inputValues);
-    
+
 })
 
 //FUNZIONI
@@ -48,15 +68,10 @@ buttonEl.addEventListener('click', function(e){
  */
 function getRandomNums() {
     const randomNums = new Set();
-    while (randomNums.size != 5) {randomNums.add(Math.floor(Math.random() * 50) + 1)};
+    while (randomNums.size != 5) { randomNums.add(Math.floor(Math.random() * 50) + 1) };
     return randomNums;
 }
 
-
-//Inseriamo un nuovo elemento html per ogni elemento dell'oggetto
-randomNums.forEach(randomNum => {
-    numbersListEl.innerHTML += `<li>${randomNum}</li>`;
-});
 
 /**
  * ## Salviamo in un array i valori degli input
@@ -78,7 +93,7 @@ function getInputValues() {
 */
 function checkNumbers(randomNums, inputValues) {
     const goodNumbers = [];
-    for (let i = 0 ; i < inputValues.length; i++) {
+    for (let i = 0; i < inputValues.length; i++) {
         if (randomNums.includes(inputValues[i])) {
             goodNumbers.push(inputValues[i]);
         }
