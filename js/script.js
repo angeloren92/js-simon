@@ -24,7 +24,7 @@ console.log(randomNums);
 
 
 //TIMER PER LASCIARE ALL'UTENTE DI LEGGERE LE ISTRUZIONI
-setTimeout(function() {
+setTimeout(function () {
     let timer = 30;
     countdownEl.innerHTML = timer;
     instructionsEl.innerHTML = "";
@@ -34,7 +34,7 @@ setTimeout(function() {
         numbersListEl.innerHTML += `<li>${randomNum}</li>`;
     });
     //COUNTDOWN CON LE CONSEGUENTI AZIONI
-    const timerId = setInterval(function() {
+    const timerId = setInterval(function () {
         if (timer <= 0) {
             clearInterval(timerId);  //stop
             //azioni in HTML
@@ -52,7 +52,7 @@ setTimeout(function() {
 
 
 //EVENTO AL CLICK CON CONSEGUENTI AZIONI
-buttonEl.addEventListener('click', function(e) {
+buttonEl.addEventListener('click', function (e) {
     e.preventDefault();
     //conserviamo i valori degli input inseriti dall'utente
     const inputValues = getInputValues();
@@ -75,19 +75,17 @@ buttonEl.addEventListener('click', function(e) {
         if (goodNumbers != 0) {
             goodNumbers.forEach(goodnumber => {
                 numbersListEl.innerHTML += `<li>${goodnumber}</li>`;
-                setTimeout(function() {
-                    location.reload();
-                }, 5000)
             });
         } else {
             instructionsEl.innerHTML = "Ritenta...";
-            setTimeout(function() {
-                location.reload();
-            }, 5000)
+
         }
     } else { //allerta per input errati
         alert('Inserisci valori validi, tra 1 e 50 e non duplicati')
     }
+    setTimeout(function () {
+        location.reload();
+    }, 8000)
 })
 
 //FUNZIONI
