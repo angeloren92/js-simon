@@ -24,7 +24,7 @@ console.log(randomNums);
 
 
 //TIMER PER LASCIARE ALL'UTENTE DI LEGGERE LE ISTRUZIONI
-setTimeout(function () {
+setTimeout(function() {
     let timer = 30;
     countdownEl.innerHTML = timer;
     instructionsEl.innerHTML = "";
@@ -52,7 +52,7 @@ setTimeout(function () {
 
 
 //EVENTO AL CLICK CON CONSEGUENTI AZIONI
-buttonEl.addEventListener('click', function (e) {
+buttonEl.addEventListener('click', function(e) {
     e.preventDefault();
     //conserviamo i valori degli input inseriti dall'utente
     const inputValues = getInputValues();
@@ -83,7 +83,7 @@ buttonEl.addEventListener('click', function (e) {
     } else { //allerta per input errati
         alert('Inserisci valori validi, tra 1 e 50 e non duplicati')
     }
-    setTimeout(function () {
+    setTimeout(function() {
         location.reload();
     }, 8000)
 })
